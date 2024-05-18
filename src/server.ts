@@ -3,6 +3,7 @@ require("dotenv").config()
 import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors'
 import cors from 'cors'
+import path from 'path'
 
 const port = process.env.PORT
 
@@ -20,6 +21,11 @@ app.use(cors({
 
 const router = require("./routes/Router.ts")
 app.use(router)
+
+app.use(
+    "/files",
+    express.static(path.resolve(__dirname, "..", "tmp"))
+)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof Error) {
